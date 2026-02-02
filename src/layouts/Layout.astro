@@ -2,12 +2,20 @@
 interface Props {
   title?: string;
   description?: string;
+  siteUrl?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
 }
 
 const {
   title = "Valentine Edition - Para Emily",
-  description = "Una propuesta especial de San Valentín"
+  description = "Una propuesta especial de San Valentín",
+  siteUrl = "https://example.com",
+  ogImage = "/og/valentine-heart.jpg",
+  ogImageAlt = "Corazon de San Valentin"
 } = Astro.props;
+
+const ogImageUrl = `${siteUrl}${ogImage}`;
 ---
 
 <!doctype html>
@@ -18,6 +26,21 @@ const {
     <meta name="description" content={description} />
     <meta name="theme-color" content="#FFB6D9" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💕</text></svg>" />
+    <link rel="canonical" href={siteUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={ogImageAlt} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
     <title>{title}</title>
 
     <!-- Canvas Confetti CDN -->
