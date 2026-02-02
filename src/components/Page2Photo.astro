@@ -1,0 +1,147 @@
+---
+interface Props {
+  recipientName?: string;
+}
+
+const {
+} = Astro.props;
+---
+
+<section id="page-2" class="page-section bg-gradient-rosa relative">
+  <!-- Animated Background Petals -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    {Array.from({ length: 12 }).map((_, i) => (
+      <span
+        class="petal absolute text-2xl"
+        style={`
+          animation: fall ${8 + Math.random() * 8}s linear infinite;
+          animation-delay: ${Math.random() * 8}s;
+          left: ${Math.random() * 100}%;
+          opacity: ${0.3 + Math.random() * 0.3};
+        `}
+      >
+        {['🌸', '💕', '🩷', '💗'][Math.floor(Math.random() * 4)]}
+      </span>
+    ))}
+  </div>
+
+  <!-- Main Content -->
+  <div class="relative z-20 flex flex-col items-center">
+    <!-- Letter Sheet -->
+    <div class="sheet-wrapper mb-6 animate-fade-in-up" style="animation-delay: 0.3s;">
+      <div class="letter-sheet">
+        <div class="sheet-inner">
+          <p class="sheet-title text-rosa-oscuro">Para ti, Emi bonita</p>
+          <p class="sheet-body">
+           Me encantaría compartir bonitos momentos, risas, diversión, comida, fotos aesthetic y abrazos de oso contigo.
+          Y me gustaría que sigamos creando recuerdos lindos juntos. 💕
+          </p>
+          <p class="sheet-signature">De: Oscar</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex justify-center gap-3 mt-8 w-full max-w-md animate-fade-in" style="animation-delay: 1s;">
+      <button
+        class="btn-nav text-sm md:text-base whitespace-nowrap"
+        data-scroll-to="page-1"
+      >
+        ← PAG. ANTERIOR
+      </button>
+      <button
+        class="btn-nav text-sm md:text-base whitespace-nowrap"
+        data-scroll-to="page-3"
+      >
+        PAG. SIGUIENTE →
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sheet-wrapper {
+    width: min(90vw, 460px);
+  }
+
+  .letter-sheet {
+    position: relative;
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 24px 28px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+  }
+
+  .letter-sheet::before {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 2px dashed rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    pointer-events: none;
+  }
+
+  .sheet-inner {
+    text-align: center;
+    padding: 6px 4px;
+  }
+
+  .sheet-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.6rem;
+    color: #ff69b4;
+    margin-bottom: 10px;
+  }
+
+  .sheet-body {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.2rem, 1.4vw + 0.9rem, 1.45rem);
+    color: #5a4a4a;
+    line-height: 1.7;
+  }
+
+  .sheet-signature {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.25rem, 1.2vw + 0.9rem, 1.45rem);
+    color: #4b3d3d;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 640px) {
+    .sheet-wrapper {
+      width: min(92vw, 480px);
+    }
+    .letter-sheet {
+      padding: 28px 22px 30px;
+    }
+    .sheet-title {
+      font-size: 1.8rem;
+    }
+    .sheet-body {
+      font-size: 1.55rem;
+      line-height: 1.8;
+    }
+    .sheet-signature {
+      font-size: 1.4rem;
+    }
+  }
+
+  /* Petal animation */
+  @keyframes fall {
+    0% {
+      transform: translateY(-10vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.5;
+    }
+    90% {
+      opacity: 0.5;
+    }
+    100% {
+      transform: translateY(110vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+</style>

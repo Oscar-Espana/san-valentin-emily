@@ -1,0 +1,135 @@
+---
+interface Props {
+  date?: string;
+  bodyText?: string;
+}
+
+const {
+  date = "",
+  bodyText = ""
+} = Astro.props;
+---
+
+<section id="page-1" class="page-section bg-gradient-valentine relative">
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"60\" height=\"60\"><text x=\"30\" y=\"35\" text-anchor=\"middle\" font-size=\"20\" fill=\"%23DC143C\" opacity=\"0.3\">💘</text></svg>'); background-size: 60px 60px;"></div>
+  </div>
+
+  <!-- Main Card -->
+  <div class="card-vintage relative z-20 animate-fade-in-up">
+    <!-- Header Decoration -->
+    <div class="flex justify-center mb-4">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">💘</span>
+        <div class="line-decorative"></div>
+        <span class="text-2xl">💘</span>
+      </div>
+    </div>
+
+    <!-- Main Title -->
+    <h1 class="title-valentine text-center mb-4">
+      Valentine Edition
+    </h1>
+
+    <!-- Subtitle Section -->
+    <div class="text-center mb-6 space-y-1">
+      <p class="subtitle-vintage text-rosa-oscuro font-semibold">
+        {date}
+      </p>
+      <div class="divider-heart">
+        <span class="text-rojo text-xl">❤️</span>
+      </div>
+      <p class="subtitle-vintage text-sm">
+        HAY ALGO ESPECIAL PARA TI
+      </p>
+      <p class="font-serif italic text-rosa-oscuro text-lg">
+        ¿Quieres averiguarlo?
+      </p>
+    </div>
+
+    <!-- Decorative Divider -->
+    <div class="flex justify-center items-center gap-4 my-6">
+      <div class="flex-1 h-px bg-gradient-to-r from-transparent via-rosa-oscuro to-transparent"></div>
+      <span class="text-dorado text-xl">✨</span>
+      <div class="flex-1 h-px bg-gradient-to-l from-transparent via-rosa-oscuro to-transparent"></div>
+    </div>
+
+    <!-- Body Text -->
+    <div class="prose prose-pink text-center mb-8">
+      <p class="text-gray-700 leading-relaxed font-light text-lg">
+        {bodyText}
+      </p>
+    </div>
+
+    <!-- Cupid Decorations -->
+    <div class="flex justify-center gap-8 mb-8">
+      <span class="text-3xl animate-float" style="animation-delay: 0s;">💘</span>
+      <span class="text-3xl animate-float" style="animation-delay: 0.5s;">💝</span>
+      <span class="text-3xl animate-float" style="animation-delay: 1s;">💘</span>
+    </div>
+
+    <!-- Footer Decoration -->
+    <div class="flex justify-center mb-6">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-px bg-dorado"></div>
+        <span class="text-dorado">✦</span>
+        <span class="font-serif text-rosa-oscuro text-center text-lg md:text-xl">Con cariño: Oscar España</span>
+        <span class="text-dorado">✦</span>
+        <div class="w-12 h-px bg-dorado"></div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex flex-wrap justify-center gap-3 w-full max-w-md px-4">
+      <button
+        class="btn-nav text-sm md:text-base text-center leading-tight opacity-50 cursor-not-allowed"
+        disabled
+      >
+        ← PAG. ANTERIOR
+      </button>
+      <button
+        class="btn-nav text-sm md:text-base text-center leading-tight"
+        data-scroll-to="page-2"
+      >
+        PAG. SIGUIENTE →
+      </button>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="scroll-indicator text-rosa-oscuro">
+    <div class="flex flex-col items-center gap-2">
+      <span class="text-sm font-medium">Desliza hacia abajo</span>
+      <span class="text-2xl animate-bounce">↓</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .prose p {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  /* Vintage paper texture effect */
+  .card-vintage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  /* Decorative corners */
+  .card-vintage::after {
+    content: '❦';
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    color: #FFD700;
+    opacity: 0.5;
+  }
+</style>

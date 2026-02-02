@@ -1,0 +1,342 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Decorations from '../components/Decorations.astro';
+import Page1Card from '../components/Page1Card.astro';
+import Page2Photo from '../components/Page2Photo.astro';
+import Page3Question from '../components/Page3Question.astro';
+
+// Configuración personalizable
+const config = {
+  // Página 1 - La Carta
+  date: "14 DE FEBRERO DEL 2026",
+  cardBodyText: `Emi bonita, ya han pasado varios meses desde que nos conocemos y poco a poco hemos ido compartiendo momentos muy lindos.
+Cuando estamos juntos, el tiempo pasa volando y todo se siente más sencillo y bonito.
+Me encanta salir a caminar contigo, comer juntos, jugar mi barquito de papel, tomarnos fotos aesthetic, jugar a ahogarnos y hasta las luchitas en la piscina, porque cada uno de esos momentos los disfruto contigo.
+Hoy quiero decirte que me encantas, que disfruto mucho pasar a tu lado y que espero que Dios nos permita seguir compartiendo y enfrentar juntos los obstáculos que vengan.`,
+
+  // Página 3 - La Pregunta
+  recipientName: "Emily",
+  senderName: "Oscar España",
+  poeticText: `Emi bonita, creo que me encantas más de lo que debería, y cada día un poquito más.
+Me encanta tu risa, tu forma de ser y todo lo bonito que compartimos.
+Me gustaría seguir creando momentos lindos contigo.
+Hoy quiero preguntarte algo importante...`
+};
+---
+
+<Layout
+  title={`Valentine Edition - Para ${config.recipientName}`}
+  description={`Una propuesta especial de San Valentín para ${config.recipientName}`}
+>
+  <!-- Page Navigation Dots -->
+  <nav id="page-nav" class="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
+    <button data-page="page-1" class="nav-dot active" aria-label="Ir a página 1">
+      <span class="dot"></span>
+      <span class="label">La Carta</span>
+    </button>
+    <button data-page="page-2" class="nav-dot" aria-label="Ir a página 2">
+      <span class="dot"></span>
+      <span class="label">La Sorpresa</span>
+    </button>
+    <button data-page="page-3" class="nav-dot" aria-label="Ir a página 3">
+      <span class="dot"></span>
+      <span class="label">La Pregunta</span>
+    </button>
+  </nav>
+
+  <!-- Global Decorations -->
+  <Decorations variant="all" density="medium" />
+
+  <!-- Page 1: La Carta -->
+  <Page1Card
+    date={config.date}
+    bodyText={config.cardBodyText}
+  />
+
+  <!-- Page 2: La Foto con Sobre -->
+  <Page2Photo
+    recipientName={config.recipientName}
+  />
+
+  <!-- Page 3: La Gran Pregunta -->
+  <Page3Question
+    recipientName={config.recipientName}
+    senderName={config.senderName}
+    poeticText={config.poeticText}
+  />
+
+  <!-- Additional Scripts -->
+  <script>
+    // Navigation between pages
+    document.addEventListener('DOMContentLoaded', () => {
+      const scrollToSection = (pageId: string) => {
+        const target = document.getElementById(pageId);
+        if (!target) return;
+        const root = document.documentElement;
+        const body = document.body;
+        const startY = window.scrollY;
+        root.classList.add('no-snap');
+        body.classList.add('no-snap');
+
+        const top = target.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top, behavior: 'smooth' });
+
+        setTimeout(() => {
+          const currentY = window.scrollY;
+          if (Math.abs(currentY - startY) < 10) {
+            const fallbackTop = target.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({ top: fallbackTop, behavior: 'smooth' });
+          }
+          root.classList.remove('no-snap');
+          body.classList.remove('no-snap');
+        }, 350);
+      };
+
+      // Nav dots functionality
+      const navDots = document.querySelectorAll('.nav-dot');
+
+      navDots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          const pageId = dot.getAttribute('data-page');
+          if (pageId) scrollToSection(pageId);
+        });
+      });
+
+      // Update active dot on scroll
+      const updateActiveDot = (pageId: string) => {
+        navDots.forEach(dot => {
+          if (dot.getAttribute('data-page') === pageId) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      };
+
+      // Smooth scroll for all navigation buttons
+      document.querySelectorAll('[data-scroll-to]').forEach(button => {
+        button.addEventListener('click', () => {
+          const targetId = button.getAttribute('data-scroll-to');
+          if (targetId) scrollToSection(targetId);
+        });
+      });
+
+      // Keyboard navigation
+      let currentPage = 0;
+      const pages = ['page-1', 'page-2', 'page-3'];
+
+      const navigateToPage = (index: number) => {
+        if (index >= 0 && index < pages.length) {
+          currentPage = index;
+          scrollToSection(pages[index]);
+        }
+      };
+
+      // Track current page on scroll
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const pageId = entry.target.id;
+            currentPage = pages.indexOf(pageId);
+            updateActiveDot(pageId);
+          }
+        });
+      }, { threshold: 0.5 });
+
+      pages.forEach(pageId => {
+        const page = document.getElementById(pageId);
+        if (page) observer.observe(page);
+      });
+
+      // Keyboard controls
+      document.addEventListener('keydown', (e) => {
+        switch (e.key) {
+          case 'ArrowDown':
+          case ' ':
+            e.preventDefault();
+            navigateToPage(currentPage + 1);
+            break;
+          case 'ArrowUp':
+            e.preventDefault();
+            navigateToPage(currentPage - 1);
+            break;
+          case 'ArrowRight':
+            e.preventDefault();
+            navigateToPage(currentPage + 1);
+            break;
+          case 'ArrowLeft':
+            e.preventDefault();
+            navigateToPage(currentPage - 1);
+            break;
+          case '1':
+            navigateToPage(0);
+            break;
+          case '2':
+            navigateToPage(1);
+            break;
+          case '3':
+            navigateToPage(2);
+            break;
+        }
+      });
+
+      // Touch swipe support
+      let touchStartY = 0;
+      let touchEndY = 0;
+
+      document.addEventListener('touchstart', (e) => {
+        touchStartY = e.changedTouches[0].screenY;
+      }, { passive: true });
+
+      document.addEventListener('touchend', (e) => {
+        touchEndY = e.changedTouches[0].screenY;
+        const diff = touchStartY - touchEndY;
+
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) {
+            navigateToPage(currentPage + 1);
+          } else {
+            navigateToPage(currentPage - 1);
+          }
+        }
+      }, { passive: true });
+
+      // Preload celebration confetti
+      // @ts-ignore
+      if (typeof confetti !== 'undefined') {
+        // Warm up confetti
+        // @ts-ignore
+        confetti.reset();
+      }
+
+      // Add entrance animation delay to elements
+      const animateElements = document.querySelectorAll('.animate-fade-in, .animate-fade-in-up');
+      animateElements.forEach((el, index) => {
+        const htmlEl = el as HTMLElement;
+        if (!htmlEl.style.animationDelay) {
+          htmlEl.style.animationDelay = `${index * 0.1}s`;
+        }
+      });
+
+      // Console Easter Egg
+      console.log('%c💕 Hecho con amor para Emily 💕', 'font-size: 20px; color: #FF69B4;');
+      console.log('%c🌹 De: Oscar España', 'font-size: 14px; color: #DC143C;');
+    });
+  </script>
+</Layout>
+
+<style is:global>
+  /* Ensure smooth scrolling on the whole page */
+  html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+  }
+  html.no-snap,
+  body.no-snap {
+    scroll-snap-type: none !important;
+  }
+
+  /* Each section snaps to viewport */
+  .page-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  body {
+    scrollbar-width: thin;
+    scrollbar-color: #FF69B4 #FFF5F7;
+  }
+
+  /* Images are visible by default */
+  img {
+    transition: opacity 0.3s ease;
+  }
+
+  /* Navigation dots styles */
+  .nav-dot {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.2rem;
+    border: none;
+    background: transparent;
+    transition: all 0.3s ease;
+    opacity: 0.55;
+  }
+
+  .nav-dot .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 105, 180, 0.4);
+    border: 2px solid #FF69B4;
+    transition: all 0.3s ease;
+  }
+
+  .nav-dot .label {
+    font-size: 0.75rem;
+    color: #FF69B4;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .nav-dot:hover .label,
+  .nav-dot.active .label {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .nav-dot.active .dot {
+    background: #DC143C;
+    border-color: #DC143C;
+    transform: scale(1.15);
+    box-shadow: 0 0 8px rgba(220, 20, 60, 0.35);
+  }
+
+  .nav-dot.active {
+    opacity: 1;
+  }
+
+  .nav-dot:hover .dot {
+    transform: scale(1.1);
+    background: #FF69B4;
+  }
+
+  .nav-dot:hover {
+    opacity: 1;
+  }
+
+  /* Hide nav on mobile - use swipe instead */
+  @media (max-width: 640px) {
+    #page-nav {
+      right: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%) !important;
+      flex-direction: column;
+      gap: 0.45rem;
+      padding: 0.25rem;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 4px 12px rgba(220, 20, 60, 0.12);
+      z-index: 60;
+      pointer-events: auto;
+    }
+    .nav-dot {
+      padding: 0.4rem;
+      touch-action: manipulation;
+    }
+    .nav-dot .dot {
+      width: 14px;
+      height: 14px;
+    }
+    .nav-dot .label {
+      display: none;
+    }
+  }
+</style>

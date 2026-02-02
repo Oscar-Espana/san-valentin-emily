@@ -1,0 +1,312 @@
+---
+interface Props {
+  recipientName?: string;
+  senderName?: string;
+  poeticText?: string;
+}
+
+const {
+  recipientName = "Emily",
+  senderName = "Oscar España",
+  poeticText = "Emi bonita, contigo todo se siente natural y especial. Me gusta tu manera de estar, tu risa y la paz que me das. Prometo bonitos momentos, risas, diversión, fotos aesthetic y abrazos que se quedan. Hoy quiero preguntarte algo importante..."
+} = Astro.props;
+
+const funnyMessages = [
+  "¡No tan rápido! 😏",
+  "¿Segura? Piénsalo bien... 🤔",
+  "El botón se escapó 🏃‍♂️",
+  "¡Intenta otra vez! 😄",
+  "¿Y si lo piensas mejor? 💕",
+  "¡Ese botón tiene piernas! 🦵",
+  "¡Casi! Pero no 😜",
+  "El amor siempre gana ❤️"
+];
+---
+
+<section id="page-3" class="page-section bg-gradient-valentine relative">
+  <!-- Sparkles Background -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    {Array.from({ length: 20 }).map((_, i) => (
+      <span
+        class="absolute text-xl animate-pulse"
+        style={`
+          top: ${Math.random() * 100}%;
+          left: ${Math.random() * 100}%;
+          animation-delay: ${Math.random() * 3}s;
+          opacity: ${0.2 + Math.random() * 0.3};
+        `}
+      >
+        ✨
+      </span>
+    ))}
+  </div>
+
+  <!-- Main Content -->
+  <div class="relative z-20 flex flex-col items-center px-4 max-w-2xl mx-auto">
+    <!-- Title -->
+    <div class="text-center mb-6 animate-fade-in">
+      <span class="text-4xl mb-2 block">💝</span>
+      <h2 class="font-cursive text-5xl md:text-6xl text-rojo">
+        La gran pregunta
+      </h2>
+    </div>
+
+    <!-- Decorative Divider -->
+    <div class="flex items-center gap-4 mb-8 animate-fade-in" style="animation-delay: 0.2s;">
+      <div class="w-16 h-px bg-gradient-to-r from-transparent to-dorado"></div>
+      <span class="text-rojo text-5xl">❦</span>
+      <div class="w-16 h-px bg-gradient-to-l from-transparent to-dorado"></div>
+    </div>
+
+    <!-- Poetic Text -->
+    <div class="text-center mb-8 animate-fade-in-up" style="animation-delay: 0.3s;">
+      <p class="font-serif text-lg md:text-xl text-gray-700 leading-relaxed italic">
+        "{poeticText}"
+      </p>
+    </div>
+
+    <!-- The Big Question -->
+    <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-rosa-primario/50 mb-8 animate-fade-in-up" style="animation-delay: 0.5s;">
+      <!-- Big emoji on top -->
+      <div class="flex justify-center mb-4">
+        <span class="text-6xl animate-bounce">💘</span>
+      </div>
+
+      <h3 class="font-cursive text-3xl md:text-5xl text-center text-rojo mb-4">
+        <span>{recipientName}</span>, ¿Quieres ser mi San Valentín? 💝
+      </h3>
+
+      <!-- Hearts decoration -->
+      <div class="flex justify-center gap-3 mb-4">
+        <span class="text-3xl animate-heartbeat">💖</span>
+        <span class="text-3xl animate-heartbeat" style="animation-delay: 0.2s;">❤️</span>
+        <span class="text-3xl animate-heartbeat" style="animation-delay: 0.4s;">💖</span>
+      </div>
+
+      <!-- From/To -->
+      <div class="name-block">
+        <p class="name-line">
+          <span class="name-label">De</span>
+          <span class="name-value name-value-sender">{senderName}</span>
+        </p>
+        <p class="name-line">
+          <span class="name-label">Para</span>
+          <span class="name-value name-value-recipient">{recipientName} López</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Buttons Container -->
+    <div class="buttons-container relative w-full max-w-md animate-fade-in-up" style="animation-delay: 0.7s;">
+      <!-- Yes Button -->
+      <button
+        id="btn-yes"
+        class="btn-valentine btn-si w-full mb-4 text-lg"
+      >
+        SÍ, QUIERO 💖
+      </button>
+
+      <!-- No Button (escapes) -->
+      <div id="no-button-container" class="relative h-16">
+        <button
+          id="btn-no"
+          class="btn-valentine btn-no absolute left-1/2 -translate-x-1/2 text-lg whitespace-nowrap"
+        >
+          NO, PERO ME GUSTAS MUCHO 😅
+        </button>
+      </div>
+
+      <!-- Funny message display -->
+      <p id="funny-message" class="text-center text-rosa-oscuro font-medium mt-4 h-6 transition-all duration-300"></p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex justify-center gap-4 mt-8 animate-fade-in" style="animation-delay: 1s;">
+      <button
+        class="btn-nav"
+        data-scroll-to="page-2"
+      >
+        ← PAG. ANTERIOR
+      </button>
+    </div>
+  </div>
+
+  <!-- Celebration Overlay (hidden by default) -->
+  <div id="celebration" class="celebration-message hidden">
+    <!-- Close button -->
+    <button
+      id="close-celebration"
+      class="absolute top-6 right-6 text-white/80 hover:text-white text-3xl transition-all hover:scale-110"
+      aria-label="Cerrar"
+    >
+      ✕
+    </button>
+    <div class="celebration-content">
+      <div class="text-8xl mb-6 animate-bounce">🎉</div>
+      <h2 class="font-cursive text-5xl md:text-6xl mb-4">¡Sabía que dirías que sí!</h2>
+      <p class="font-serif text-xl md:text-2xl mb-6">
+        Esto es solo el comienzo, {recipientName} 💕
+      </p>
+      <div class="flex justify-center gap-4 text-4xl">
+        <span class="animate-float">💖</span>
+        <span class="animate-float" style="animation-delay: 0.3s;">💕</span>
+        <span class="animate-float" style="animation-delay: 0.6s;">💗</span>
+        <span class="animate-float" style="animation-delay: 0.9s;">💖</span>
+      </div>
+      <p class="mt-8 text-lg opacity-80">
+        Con cariño, {senderName} ❤️
+      </p>
+      <!-- Button to navigate back -->
+      <button
+        id="back-to-start"
+        class="mt-8 px-8 py-3 bg-white/20 hover:bg-white/30 rounded-full text-white font-medium transition-all"
+      >
+        💌 Volver al inicio
+      </button>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ funnyMessages }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btnYes = document.getElementById('btn-yes');
+    const btnNo = document.getElementById('btn-no');
+    const noContainer = document.getElementById('no-button-container');
+    const funnyMessageEl = document.getElementById('funny-message');
+    const celebration = document.getElementById('celebration');
+    const closeBtn = document.getElementById('close-celebration');
+    const backToStartBtn = document.getElementById('back-to-start');
+
+    // Close celebration overlay
+    const closeCelebration = () => {
+      celebration?.classList.add('hidden');
+    };
+
+    closeBtn?.addEventListener('click', closeCelebration);
+
+    backToStartBtn?.addEventListener('click', () => {
+      closeCelebration();
+      const page1 = document.getElementById('page-1');
+      page1?.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    let messageIndex = 0;
+    let escapeCount = 0;
+
+    // Yes button - Show celebration with confetti
+    btnYes?.addEventListener('click', () => {
+      // Show celebration
+      celebration?.classList.remove('hidden');
+
+      // Fire confetti
+      const duration = 3000;
+      const end = Date.now() + duration;
+
+      const fireConfetti = () => {
+        // @ts-ignore - confetti is loaded from CDN
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#FFB6D9', '#FF69B4', '#DC143C', '#FFD700', '#FF1493']
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(fireConfetti);
+        }
+      };
+
+      // Three bursts of confetti
+      setTimeout(() => {
+        // @ts-ignore
+        confetti({ particleCount: 150, spread: 100, origin: { x: 0.2, y: 0.6 } });
+      }, 0);
+
+      setTimeout(() => {
+        // @ts-ignore
+        confetti({ particleCount: 150, spread: 100, origin: { x: 0.8, y: 0.6 } });
+      }, 500);
+
+      setTimeout(() => {
+        // @ts-ignore
+        confetti({ particleCount: 200, spread: 120, origin: { x: 0.5, y: 0.5 } });
+      }, 1000);
+    });
+
+    // No button - Escape behavior
+    const escapeButton = () => {
+      if (!btnNo || !noContainer) return;
+
+      const containerRect = noContainer.getBoundingClientRect();
+      const btnRect = btnNo.getBoundingClientRect();
+
+      // Calculate max positions
+      const maxX = containerRect.width - btnRect.width;
+      const maxY = 100; // Allow some vertical movement
+
+      // Random position
+      const newX = Math.random() * maxX;
+      const newY = (Math.random() * maxY) - 50;
+
+      btnNo.style.transition = 'all 0.2s ease-out';
+      btnNo.style.left = `${newX}px`;
+      btnNo.style.top = `${newY}px`;
+      btnNo.style.transform = 'translateX(0)';
+
+      // Show funny message
+      if (funnyMessageEl) {
+        funnyMessageEl.textContent = funnyMessages[messageIndex % funnyMessages.length];
+        funnyMessageEl.style.opacity = '1';
+        messageIndex++;
+      }
+
+      escapeCount++;
+
+      // After many attempts, make button smaller
+      if (escapeCount > 5) {
+        btnNo.style.transform = `scale(${Math.max(0.5, 1 - (escapeCount - 5) * 0.1)})`;
+      }
+
+      // Eventually give up and redirect to yes
+      if (escapeCount > 15) {
+        btnNo.textContent = '¡OK, SÍ! 😂';
+        btnNo.className = btnYes?.className || '';
+        btnNo.onclick = () => btnYes?.click();
+      }
+    };
+
+    btnNo?.addEventListener('mouseenter', escapeButton);
+    btnNo?.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      escapeButton();
+    });
+  });
+</script>
+
+<style>
+  .buttons-container {
+    min-height: 150px;
+  }
+
+  #no-button-container {
+    position: relative;
+    overflow: visible;
+  }
+
+  #btn-no {
+    transition: all 0.2s ease-out;
+  }
+
+  .celebration-message {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>

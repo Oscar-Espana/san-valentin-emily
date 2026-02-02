@@ -1,0 +1,83 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Valentine Edition - Para Emily",
+  description = "Una propuesta especial de San Valentín"
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#FFB6D9" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💕</text></svg>" />
+    <title>{title}</title>
+
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  </head>
+  <body class="bg-fondo-claro">
+    <slot />
+
+    <!-- Global Scripts -->
+    <script>
+      // Always start at page 1 on load
+      window.addEventListener('load', () => {
+        const page1 = document.getElementById('page-1');
+        if (page1) {
+          // Small delay to ensure page is rendered
+          setTimeout(() => {
+            page1.scrollIntoView({ behavior: 'instant' });
+          }, 100);
+        }
+      });
+
+      // Keyboard Navigation
+      document.addEventListener('keydown', (e) => {
+        const sections = document.querySelectorAll('.page-section');
+        const currentSection = [...sections].findIndex(section => {
+          const rect = section.getBoundingClientRect();
+          return rect.top >= -100 && rect.top <= 100;
+        });
+
+        if (e.key === 'ArrowDown' || e.key === ' ') {
+          e.preventDefault();
+          const nextSection = sections[currentSection + 1];
+          if (nextSection) {
+            nextSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+
+        if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prevSection = sections[currentSection - 1];
+          if (prevSection) {
+            prevSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+
+      // Smooth scroll for navigation buttons
+      document.querySelectorAll('[data-scroll-to]').forEach(button => {
+        button.addEventListener('click', () => {
+          const target = button.getAttribute('data-scroll-to');
+          const element = document.getElementById(target);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>

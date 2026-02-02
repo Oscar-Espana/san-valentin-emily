@@ -1,0 +1,273 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Base Styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+  }
+
+  body {
+    @apply font-sans text-gray-800 overflow-x-hidden;
+    background-color: #FFF5F7;
+  }
+
+  ::selection {
+    @apply bg-rosa-oscuro text-white;
+  }
+}
+
+/* Custom Components */
+@layer components {
+  .page-section {
+    @apply min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden;
+    @apply py-16 md:py-20;
+    scroll-snap-align: start;
+  }
+
+  .btn-valentine {
+    @apply px-8 py-4 rounded-full font-semibold text-white transition-all duration-300 transform;
+    @apply hover:scale-105 hover:shadow-lg active:scale-95;
+  }
+
+  .btn-si {
+    @apply bg-rojo hover:bg-red-700;
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.4);
+  }
+
+  .btn-no {
+    @apply bg-rosa-oscuro hover:bg-pink-600;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+  }
+
+  .btn-nav {
+    @apply px-6 py-3 bg-white/80 backdrop-blur-sm rounded-full text-rosa-oscuro font-medium;
+    @apply border-2 border-rosa-primario hover:bg-rosa-primario hover:text-white;
+    @apply transition-all duration-300 transform hover:scale-105;
+  }
+
+  .card-vintage {
+    @apply bg-white/90 backdrop-blur-sm rounded-3xl p-8 md:p-12;
+    @apply shadow-2xl border border-rosa-primario/30;
+    max-width: 600px;
+    width: min(92vw, 600px);
+  }
+
+  .title-valentine {
+    @apply font-cursive text-5xl md:text-7xl text-rojo;
+    text-shadow: 2px 2px 4px rgba(220, 20, 60, 0.2);
+  }
+
+  .subtitle-vintage {
+    @apply font-serif text-lg md:text-xl text-gray-600 tracking-widest uppercase;
+  }
+
+  .divider-heart {
+    @apply flex items-center justify-center gap-4 my-6;
+  }
+
+  .divider-heart::before,
+  .divider-heart::after {
+    content: '';
+    @apply flex-1 h-px bg-gradient-to-r from-transparent via-rosa-oscuro to-transparent;
+  }
+  
+  .name-block {
+    @apply text-center text-gray-700 mt-3 pt-4;
+    background: linear-gradient(90deg, rgba(255, 182, 217, 0.18), rgba(255, 240, 245, 0.0), rgba(255, 182, 217, 0.18));
+    border-top: 1px solid rgba(255, 182, 217, 0.45);
+  }
+
+  .name-line {
+    @apply flex items-center justify-center gap-3 font-serif;
+  }
+
+  .name-label {
+    @apply uppercase tracking-widest text-xs text-gray-500;
+    letter-spacing: 2px;
+  }
+
+  .name-value {
+    @apply font-cursive text-2xl md:text-3xl;
+    letter-spacing: 0.8px;
+  }
+
+  .name-value-sender {
+    color: #B3124D;
+    text-shadow: 0 4px 12px rgba(179, 18, 77, 0.2);
+  }
+
+  .name-value-recipient {
+    color: #A4004C;
+    text-shadow: 0 6px 18px rgba(164, 0, 76, 0.18);
+    position: relative;
+  }
+
+  .name-value-recipient::after {
+    content: '';
+    position: absolute;
+    left: -2px;
+    right: -2px;
+    bottom: -6px;
+    height: 6px;
+    background: linear-gradient(90deg, rgba(255, 105, 180, 0.35), rgba(255, 182, 217, 0.1));
+    border-radius: 999px;
+  }
+}
+
+/* Petal Animation Styles */
+.petal {
+  @apply absolute text-2xl pointer-events-none;
+  animation: fall linear infinite;
+  animation-duration: var(--fall-duration, 10s);
+  animation-delay: var(--fall-delay, 0s);
+  left: var(--fall-left, 50%);
+  opacity: 0.7;
+}
+
+/* Cupid Float Animation */
+.cupid {
+  @apply absolute text-3xl md:text-4xl pointer-events-none;
+  animation: float 6s ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+}
+
+/* Heart Pulse Effect */
+.heart-interactive {
+  @apply cursor-pointer transition-all duration-300;
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+.heart-interactive:hover {
+  animation: none;
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 20px rgba(220, 20, 60, 0.6));
+}
+
+/* Envelope Styles */
+.envelope-container {
+  @apply relative;
+  perspective: 1000px;
+}
+
+.envelope {
+  @apply relative bg-rosa-suave rounded-lg overflow-hidden;
+  @apply shadow-xl border-4 border-rosa-primario;
+  width: 320px;
+  height: 400px;
+}
+
+.envelope-flap {
+  @apply absolute top-0 left-0 w-full bg-rosa-primario;
+  height: 0;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-top: 100px solid #FFB6D9;
+  transform-origin: top;
+  transition: transform 0.5s ease;
+}
+
+.envelope:hover .envelope-flap {
+  transform: rotateX(180deg);
+}
+
+.envelope-photo {
+  @apply absolute inset-4 rounded-lg overflow-hidden;
+  @apply shadow-inner;
+}
+
+.envelope-photo img {
+  @apply w-full h-full object-cover;
+  transition: transform 0.5s ease;
+}
+
+.envelope:hover .envelope-photo img {
+  transform: scale(1.05);
+}
+
+/* No Button Escape Animation */
+.btn-escape {
+  @apply transition-all duration-200;
+  position: relative;
+}
+
+/* Text Glow Effect */
+.text-glow {
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+}
+
+/* Confetti Canvas */
+#confetti-canvas {
+  @apply fixed inset-0 pointer-events-none;
+  z-index: 9999;
+}
+
+/* Page Transition */
+.page-transition {
+  @apply transition-opacity duration-500;
+}
+
+/* Responsive Adjustments */
+  @media (max-width: 640px) {
+    .card-vintage {
+      @apply mx-4 p-6;
+      width: min(92vw, 560px);
+    }
+
+  .title-valentine {
+    @apply text-4xl;
+  }
+
+  .envelope {
+    width: 260px;
+    height: 340px;
+  }
+}
+
+/* Celebration Message */
+.celebration-message {
+  @apply fixed inset-0 flex items-center justify-center z-50;
+  @apply bg-gradient-to-br from-rosa-primario/95 via-rosa-oscuro/95 to-rojo/95;
+  @apply backdrop-blur-md;
+}
+
+.celebration-message.hidden {
+  display: none !important;
+}
+
+.celebration-content {
+  @apply text-center text-white p-8 animate-fade-in-up;
+}
+
+/* Decorative Lines */
+.line-decorative {
+  @apply w-24 h-0.5 bg-gradient-to-r from-transparent via-dorado to-transparent;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  @apply absolute bottom-8 left-1/2 -translate-x-1/2;
+  @apply animate-bounce-soft;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-rosa-suave;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-rosa-oscuro rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-rojo;
+}
